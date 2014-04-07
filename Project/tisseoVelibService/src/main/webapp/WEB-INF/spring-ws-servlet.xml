@@ -7,5 +7,10 @@
 
     <sws:annotation-driven/>
 
+	<sws:dynamic-wsdl id="tisseoVelib"
+    	portTypeName="tisseoVelib"
+		locationUri="/tisseoVelibService/">
+  		<sws:xsd location="/WEB-INF/xsd/TisseoVelib.xsd"/>
+	</sws:dynamic-wsdl>
 
 </beans>

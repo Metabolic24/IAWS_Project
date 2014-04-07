@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:NextBusMetroRequest xmlns:tns="http://www.example.org/TisseoVelib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/TisseoVelib TisseoVelib.xsd ">
+  <tns:name>line</tns:name>
+  <tns:shortName>A</tns:shortName>
+</tns:NextBusMetroRequest>

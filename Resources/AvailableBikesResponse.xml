@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tns:AvailableBikesResponse xmlns:tns="http://www.example.org/AvailableBikesResponse" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/AvailableBikesResponse AvailableBikesResponse.xsd ">
-  <tns:availableBikes>25</tns:availableBikes>
-</tns:AvailableBikesResponse>
