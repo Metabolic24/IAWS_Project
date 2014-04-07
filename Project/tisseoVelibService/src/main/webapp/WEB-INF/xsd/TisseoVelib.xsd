@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/TisseoVelib" xmlns:tns="http://www.example.org/TisseoVelib" elementFormDefault="qualified">
+	<element name="coordonnees">
+		<complexType>
+			<sequence>
+				<element name="longitude" type="float"></element>
+				<element name="latitude" type="float"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="bikestation">
+		<complexType>
+			<sequence>
+				<element name="id" type="string"></element>
+				<element name="name" type="string"></element>
+				<element name="adresse" type="string"></element>
+				<element name="availableBikes" type="int"></element>
+				<element name="status" type="string"></element>
+				<element ref="tns:coordonnees"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="transportLine">
+		<complexType>
+			<sequence>
+				<element name="id" type="string"></element>
+				<element name="name" type="string"></element>
+				<element name="shortName" type="string"></element>
+				<element name="nbLikes" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="user">
+		<complexType>
+			<sequence>
+				<element name="id" type="string"></element>
+				<element name="firstName" type="string"></element>
+				<element name="lastName" type="string"></element>
+				<element name="mail" type="string"></element>
+				<element name="adress" type="string"></element>
+				<element ref="tns:coordonnees"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!--Requests-->
+	
+	<element name="LikeRequest">
+		<complexType>
+			<sequence>
+				<element name="id" type="string"></element>
+				<element name="name" type="string"></element>
+				<element name="shortName" type="string"></element>
+				<element name="like" type="boolean"></element>								
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="NextBusMetroRequest">
+		<complexType>
+			<sequence>
+				<element name="name" type="string"></element>
+				<element name="shortName" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="AvailableBikesRequest">
+		<complexType>
+			<sequence>
+				<element name="name" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!--Responses-->
+	
+	<element name="LikeResponse">
+		<complexType>
+			<sequence>
+				<element name="etat" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="NextBusMetroResponse">
+		<complexType>
+			<sequence>
+				<element name="name" type="string"></element>
+				<element name="timeleft" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="AvailableBikesResponse">
+		<complexType>
+			<sequence>
+				<element name="availableBikes" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
