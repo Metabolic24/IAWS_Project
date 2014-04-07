@@ -1,11 +1,14 @@
 package iaws.ws;
 
+import iaws.domain.tisseovelib.AvailableBikesRequest;
+import iaws.domain.tisseovelib.AvailableBikesResponse;
 import iaws.services.AvailableBikesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.Namespace;
@@ -42,9 +45,15 @@ public class TisseoVelibEndpoint {
 	  }
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AvailableBikesRequest")                  
-	public void handleHolidayRequest(@RequestPayload Element availableBikesRequest)               
+	public @ResponsePayload AvailableBikesResponse handleHolidayRequest(@RequestPayload AvailableBikesRequest availableBikesRequest)               
 	      throws Exception {
-	    //TODO A compléter
-	  }
-	
+			//TODO A compléter
+			String name=availableBikesRequest.getName();
+			
+			//GET https://api.jcdecaux.com/vls/v1/stations/{station_number}?contract={contract_name} HTTP/1.1
+			//Pour récupérer les infos de la station dont le numéro est passé en paramètre 
+			bikeService.get("");
+			AvailableBikesResponse response=new AvailableBikesResponse();
+			return response;
+	}
 }
