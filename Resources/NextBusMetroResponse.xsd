@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/NewXMLSchema" xmlns:tns="http://www.example.org/NewXMLSchema" elementFormDefault="qualified">
+	<element name="NextBusMetroResponse">
+		<complexType>
+			<sequence>
+				<element name="name" type="string"></element>
+				<element name="timeleft" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

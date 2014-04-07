@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:transportLine xmlns:tns="http://www.example.org/BikeStation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/BikeStation BikeStation.xsd ">
+  <tns:id>21</tns:id>
+  <tns:name>line</tns:name>
+  <tns:shortName>A</tns:shortName>
+  <tns:nbLikes>5</tns:nbLikes>
+</tns:transportLine>

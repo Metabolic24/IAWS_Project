@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/AvailableBikesResponse" xmlns:tns="http://www.example.org/AvailableBikesResponse" elementFormDefault="qualified">
+	<element name="AvailableBikesResponse">
+		<complexType>
+			<sequence>
+				<element name="availableBikes" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
