@@ -2,12 +2,14 @@ package iaws.ws;
 
 import java.util.ArrayList;
 
-import javax.swing.text.DocumentFilter.FilterBypass;
-
 import iaws.domain.tisseovelib.AvailableBikesRequest;
 import iaws.domain.tisseovelib.AvailableBikesResponse;
+import iaws.domain.tisseovelib.CheckPoint;
+import iaws.domain.tisseovelib.Coordonnees;
 import iaws.domain.tisseovelib.LikeRequest;
 import iaws.domain.tisseovelib.LikeResponse;
+import iaws.domain.tisseovelib.NextBusMetroRequest;
+import iaws.domain.tisseovelib.NextBusMetroResponse;
 import iaws.domain.tisseovelib.TransportLine;
 import iaws.domain.tisseovelib.User;
 import iaws.services.BikeService;
@@ -23,6 +25,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class AvailableBikesEndpoint {
 	
 	private static final String NAMESPACE_URI = "http://www.example.org/TisseoVelib";
+	private static final Coordonnees UNIVERSITE = new Coordonnees(43.5608814,1.4633499);
 	
 	private ArrayList<User> userList;
 	
@@ -41,35 +44,45 @@ public class AvailableBikesEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AvailableBikesRequest")                  
 	public @ResponsePayload AvailableBikesResponse handleAvailableBikesRequest(@RequestPayload AvailableBikesRequest availableBikesRequest) {
-			String name=availableBikesRequest.getName();
-			AvailableBikesResponse response=new AvailableBikesResponse();
-			response.setAvailableBikes(bikeService.filterStationsByName(name).getAvailableBikes());
-			return response;
+		String name=availableBikesRequest.getName();
+		AvailableBikesResponse response=new AvailableBikesResponse();
+		response.setAvailableBikes(bikeService.filterStationsByName(name).getAvailableBikes());
+		return response;
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "LikeRequest")                  
 	public @ResponsePayload LikeResponse handleLikeRequest(@RequestPayload LikeRequest likeRequest) {
-			LikeResponse response=new LikeResponse();
-			User currentUser=filterUserByID(likeRequest.getId());
-			if (currentUser!=null) {
-				TransportLine currentLine=busMetroService.filterStationsByNameAndShortname
-						(likeRequest.getName(), likeRequest.getShortName());
-				if(currentLine!=null) {
-					if(currentUser.likeUnlike(currentLine.getId(),likeRequest.isLike())){
-						response.setEtat("OK");
-					}
-					else{
-						if(likeRequest.isLike())
-							response.setEtat("Already Liked");
-						else
-							response.setEtat("Already Unliked");
-					}
-					
+		LikeResponse response=new LikeResponse();
+		User currentUser=filterUserByID(likeRequest.getId());
+		if (currentUser!=null) {
+			TransportLine currentLine=busMetroService.filterStationsByShortname(likeRequest.getShortName());
+			if(currentLine!=null) {
+				if(currentUser.likeUnlike(currentLine.getId(),likeRequest.isLike())){
+					response.setEtat("OK");
 				}
-				response.setEtat("ERROR : Line doesn't exist");
+				else{
+					if(likeRequest.isLike())
+						response.setEtat("OK : Already Liked");
+					else
+						response.setEtat("OK : Already Unliked");
+				}
 			}
-			response.setEtat("ERROR : User doesn't exist");
-			return response;
+			response.setEtat("ERROR : Line doesn't exist");
+		}
+		response.setEtat("ERROR : User doesn't exist");
+		return response;
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "NextBusMetroRequest")                  
+	public @ResponsePayload NextBusMetroResponse handleNextBusMetroRequest(@RequestPayload NextBusMetroRequest nextBusMetroRequest) {
+		NextBusMetroResponse response=new NextBusMetroResponse();
+		TransportLine currentLine = busMetroService.filterStationsByShortname(nextBusMetroRequest.getShortName());
+		if(currentLine!=null) {
+			CheckPoint nearestCheckPoint=busMetroService.getNearestCheckPoint(UNIVERSITE, currentLine.getId());
+			response.setName(nearestCheckPoint.getName());
+			response.setTime(busMetroService.getNextTimeToCheckPoint(nearestCheckPoint.getId()));
+		}
+		return response;
 	}
 	
 	public User filterUserByID(long id){

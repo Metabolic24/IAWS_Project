@@ -15,8 +15,11 @@
 
 	<bean id="availableBikesEndpoint"
           class="iaws.ws.AvailableBikesEndpoint">
-        <constructor-arg name="availableBikesService" ref="availableBikesService"/>
+        <constructor-arg name="bikeService" ref="bikeService"/>
+        <constructor-arg name="busMetroService" ref="busMetroService"/>
     </bean>
-    <bean id="availableBikesService"
-          class="iaws.services.impl.AvailableBikesServImpl"/>
+    <bean id="bikeService"
+          class="iaws.services.impl.BikeServImpl"/>
+    <bean id="busMetroService"
+          class="iaws.services.impl.BusMetroServImpl"/>
 </beans>

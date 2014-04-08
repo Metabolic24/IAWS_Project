@@ -32,9 +32,17 @@ public class AvailableBikesEndpointTest {
     }
 
     @Test
-    public void availableBikesEndpoint() throws Exception {
+    public void availableBikesRequest() throws Exception {
         Source requestPayload = new StreamSource(new ClassPathResource("AvailableBikesRequest.xml").getInputStream() );
         Source responsePayload = new StreamSource(new ClassPathResource("AvailableBikesResponse.xml").getInputStream());
+
+        mockClient.sendRequest(withPayload(requestPayload)).
+                andExpect(payload(responsePayload));
+    }
+    
+    public void likeRequest() throws Exception {
+    	Source requestPayload = new StreamSource(new ClassPathResource("LikeRequest.xml").getInputStream() );
+        Source responsePayload = new StreamSource(new ClassPathResource("LikeResponse.xml").getInputStream());
 
         mockClient.sendRequest(withPayload(requestPayload)).
                 andExpect(payload(responsePayload));

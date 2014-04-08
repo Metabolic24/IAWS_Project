@@ -4,7 +4,7 @@
 		<complexType>
 			<sequence>
 				<element name="name" type="string"></element>
-				<element name="timeleft" type="int"></element>
+				<element name="time" type="string"></element>
 			</sequence>
 		</complexType>
 	</element>

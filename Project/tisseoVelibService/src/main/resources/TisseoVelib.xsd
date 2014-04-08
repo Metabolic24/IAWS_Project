@@ -22,6 +22,16 @@
 		</complexType>
 	</element>
 	
+	<element name="checkPoint">
+		<complexType>
+			<sequence>
+				<element name="id" type="long"></element>
+				<element name="name" type="string"></element>
+				<element ref="tns:coordonnees"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
 	<element name="transportLine">
 		<complexType>
 			<sequence>
@@ -52,7 +62,6 @@
 		<complexType>
 			<sequence>
 				<element name="id" type="long"></element>
-				<element name="name" type="string"></element>
 				<element name="shortName" type="string"></element>
 				<element name="like" type="boolean"></element>								
 			</sequence>
@@ -62,7 +71,6 @@
 	<element name="NextBusMetroRequest">
 		<complexType>
 			<sequence>
-				<element name="name" type="string"></element>
 				<element name="shortName" type="string"></element>
 			</sequence>
 		</complexType>
@@ -90,7 +98,7 @@
 		<complexType>
 			<sequence>
 				<element name="name" type="string"></element>
-				<element name="timeleft" type="int"></element>
+				<element name="time" type="string"></element>
 			</sequence>
 		</complexType>
 	</element>

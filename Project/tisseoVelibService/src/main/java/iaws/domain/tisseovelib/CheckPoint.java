@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.7 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2014.04.08 à 04:04:56 PM CEST 
+// Généré le : 2014.04.08 à 05:46:01 PM CEST 
 //
 
 
@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="shortName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="like" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element ref="{http://www.example.org/TisseoVelib}coordonnees"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,16 +39,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "id",
-    "shortName",
-    "like"
+    "name",
+    "coordonnees"
 })
-@XmlRootElement(name = "LikeRequest")
-public class LikeRequest {
+@XmlRootElement(name = "checkPoint")
+public class CheckPoint {
 
     protected long id;
     @XmlElement(required = true)
-    protected String shortName;
-    protected boolean like;
+    protected String name;
+    @XmlElement(required = true)
+    protected Coordonnees coordonnees;
 
     /**
      * Obtient la valeur de la propriété id.
@@ -67,43 +68,51 @@ public class LikeRequest {
     }
 
     /**
-     * Obtient la valeur de la propriété shortName.
+     * Obtient la valeur de la propriété name.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getShortName() {
-        return shortName;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Définit la valeur de la propriété shortName.
+     * Définit la valeur de la propriété name.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setShortName(String value) {
-        this.shortName = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
     /**
-     * Obtient la valeur de la propriété like.
+     * Obtient la valeur de la propriété coordonnees.
      * 
+     * @return
+     *     possible object is
+     *     {@link Coordonnees }
+     *     
      */
-    public boolean isLike() {
-        return like;
+    public Coordonnees getCoordonnees() {
+        return coordonnees;
     }
 
     /**
-     * Définit la valeur de la propriété like.
+     * Définit la valeur de la propriété coordonnees.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Coordonnees }
+     *     
      */
-    public void setLike(boolean value) {
-        this.like = value;
+    public void setCoordonnees(Coordonnees value) {
+        this.coordonnees = value;
     }
 
 }

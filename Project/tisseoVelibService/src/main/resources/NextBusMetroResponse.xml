@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tns:NextBusMetroResponse xmlns:tns="http://www.example.org/TisseoVelib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/TisseoVelib TisseoVelib.xsd ">
-  <tns:name>Jean Jaurès</tns:name>
-  <tns:timeleft>360</tns:timeleft>
+  <tns:name>tns:name</tns:name>
+  <tns:time>tns:time</tns:time>
 </tns:NextBusMetroResponse>

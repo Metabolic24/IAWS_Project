@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.7 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2014.04.07 à 05:52:44 PM CEST 
+// Généré le : 2014.04.08 à 05:46:01 PM CEST 
 //
 
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="timeleft" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="time" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,14 +38,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "name",
-    "timeleft"
+    "time"
 })
 @XmlRootElement(name = "NextBusMetroResponse")
 public class NextBusMetroResponse {
 
     @XmlElement(required = true)
     protected String name;
-    protected int timeleft;
+    @XmlElement(required = true)
+    protected String time;
 
     /**
      * Obtient la valeur de la propriété name.
@@ -72,19 +73,27 @@ public class NextBusMetroResponse {
     }
 
     /**
-     * Obtient la valeur de la propriété timeleft.
+     * Obtient la valeur de la propriété time.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public int getTimeleft() {
-        return timeleft;
+    public String getTime() {
+        return time;
     }
 
     /**
-     * Définit la valeur de la propriété timeleft.
+     * Définit la valeur de la propriété time.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setTimeleft(int value) {
-        this.timeleft = value;
+    public void setTime(String value) {
+        this.time = value;
     }
 
 }
