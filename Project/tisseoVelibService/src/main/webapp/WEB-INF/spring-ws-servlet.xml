@@ -13,4 +13,10 @@
   		<sws:xsd location="/WEB-INF/xsd/TisseoVelib.xsd"/>
 	</sws:dynamic-wsdl>
 
+	<bean id="availableBikesEndpoint"
+          class="iaws.ws.AvailableBikesEndpoint">
+        <constructor-arg name="availableBikesService" ref="availableBikesService"/>
+    </bean>
+    <bean id="availableBikesService"
+          class="iaws.services.impl.AvailableBikesServImpl"/>
 </beans>

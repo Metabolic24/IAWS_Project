@@ -11,14 +11,14 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
-public class TisseoVelibEndpoint {
+public class AvailableBikesEndpoint {
 	
 	private static final String NAMESPACE_URI = "http://www.example.org/TisseoVelib";
 	
 	private AvailableBikesService bikeService;
 	
 	@Autowired
-	public TisseoVelibEndpoint(AvailableBikesService bikeService) {
+	public AvailableBikesEndpoint(AvailableBikesService bikeService) {
 	    this.bikeService = bikeService;
 	}
 	
