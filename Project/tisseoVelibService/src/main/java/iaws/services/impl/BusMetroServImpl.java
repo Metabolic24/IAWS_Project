@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import iaws.domain.tisseovelib.TransportLine;
+import iaws.domain.tisseovelib.User;
 import iaws.services.BusMetroService;
 
 public class BusMetroServImpl implements BusMetroService {
@@ -28,6 +29,7 @@ public class BusMetroServImpl implements BusMetroService {
 	
 	@Override
 	public TransportLine filterStationsByID(long id){
+		refreshList();
 		for (int i=0;i<lineList.size();i++) {
 			if(lineList.get(i).getId()==id) {
 				return lineList.get(i); 
@@ -35,6 +37,19 @@ public class BusMetroServImpl implements BusMetroService {
 		}
 		return null;
 	}
+	
+	@Override
+	public TransportLine filterStationsByNameAndShortname(String name, String shortName){
+		refreshList();
+		for (int i=0;i<lineList.size();i++) {
+			TransportLine currentLine = lineList.get(i);
+			if(currentLine.getName().equals(name) && currentLine.getShortName().equals(shortName)) {
+				return currentLine;
+			}
+		}
+		return null;
+	}
+	
 	
 	public void refreshList() {
 		try {

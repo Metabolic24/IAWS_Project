@@ -8,6 +8,8 @@
 
 package iaws.domain.tisseovelib;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -51,6 +53,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "user")
 public class User {
 
+	private ArrayList<Long> likeList;
+	
     protected long id;
     @XmlElement(required = true)
     protected String firstName;
@@ -63,6 +67,40 @@ public class User {
     @XmlElement(required = true)
     protected Coordonnees coordonnees;
 
+    public User(){
+    	likeList=new ArrayList<Long>();
+    }
+    
+    public User(String firstName, String lastName, String mail, String adress, double lat, double lon){
+    	this.firstName=firstName;
+    	this.lastName=lastName;
+    	this.mail=mail;
+    	this.adress=adress;
+    	this.coordonnees=new Coordonnees(lat,lon);
+    	likeList=new ArrayList<Long>();
+    }
+    
+    public boolean checkLike(long id){
+    	if(likeList.contains(id)){
+    		return true;
+    	}
+    	else return false;
+    }
+    
+    public boolean likeUnlike(long id,boolean like) {
+    	if(like && !checkLike(id)){
+    		likeList.add(id);
+    		return true;
+    	}
+    	else if(!like && checkLike(id)){
+    		likeList.add(id);
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
     /**
      * Obtient la valeur de la propriété id.
      * 
