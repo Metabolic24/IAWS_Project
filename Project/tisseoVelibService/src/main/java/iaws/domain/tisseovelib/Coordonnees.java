@@ -2,9 +2,8 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.7 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2014.04.07 à 05:52:44 PM CEST 
+// Généré le : 2014.04.08 à 01:45:34 AM CEST 
 //
-
 
 package iaws.domain.tisseovelib;
 
@@ -24,8 +23,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="longitude" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="latitude" type="{http://www.w3.org/2001/XMLSchema}float"/>
+ *         &lt;element name="longitude" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="latitude" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -42,14 +41,21 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "coordonnees")
 public class Coordonnees {
 
-    protected float longitude;
-    protected float latitude;
+    protected double longitude;
+    protected double latitude;
 
+    public Coordonnees(){}
+    
+    public Coordonnees(double lat,double lon) {
+    	latitude=lat;
+    	longitude=lon;
+    }
+    
     /**
      * Obtient la valeur de la propriété longitude.
      * 
      */
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -57,7 +63,7 @@ public class Coordonnees {
      * Définit la valeur de la propriété longitude.
      * 
      */
-    public void setLongitude(float value) {
+    public void setLongitude(double value) {
         this.longitude = value;
     }
 
@@ -65,7 +71,7 @@ public class Coordonnees {
      * Obtient la valeur de la propriété latitude.
      * 
      */
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -73,7 +79,7 @@ public class Coordonnees {
      * Définit la valeur de la propriété latitude.
      * 
      */
-    public void setLatitude(float value) {
+    public void setLatitude(double value) {
         this.latitude = value;
     }
 

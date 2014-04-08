@@ -2,9 +2,8 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.7 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2014.04.07 à 05:52:44 PM CEST 
+// Généré le : 2014.04.08 à 01:45:34 AM CEST 
 //
-
 
 package iaws.domain.tisseovelib;
 
@@ -37,6 +36,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link BikeStation }
+     * 
+     */
+    public BikeStation createBikeStation() {
+        return new BikeStation();
+    }
+
+    /**
+     * Create an instance of {@link Coordonnees }
+     * 
+     */
+    public Coordonnees createCoordonnees() {
+        return new Coordonnees();
+    }
+
+    /**
      * Create an instance of {@link TransportLine }
      * 
      */
@@ -66,22 +81,6 @@ public class ObjectFactory {
      */
     public AvailableBikesRequest createAvailableBikesRequest() {
         return new AvailableBikesRequest();
-    }
-
-    /**
-     * Create an instance of {@link Bikestation }
-     * 
-     */
-    public Bikestation createBikestation() {
-        return new Bikestation();
-    }
-
-    /**
-     * Create an instance of {@link Coordonnees }
-     * 
-     */
-    public Coordonnees createCoordonnees() {
-        return new Coordonnees();
     }
 
     /**

@@ -1,8 +1,8 @@
 package iaws.services;
 
-import java.io.IOException;
+import iaws.domain.tisseovelib.BikeStation;
 
 public interface AvailableBikesService {
-
-	public String get(String url) throws IOException;
+	
+	public BikeStation filterStationsByName(String name);
 }
