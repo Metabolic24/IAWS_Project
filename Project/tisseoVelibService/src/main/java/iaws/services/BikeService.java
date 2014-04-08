@@ -2,7 +2,7 @@ package iaws.services;
 
 import iaws.domain.tisseovelib.BikeStation;
 
-public interface AvailableBikesService {
+public interface BikeService {
 	
 	public BikeStation filterStationsByName(String name);
 }

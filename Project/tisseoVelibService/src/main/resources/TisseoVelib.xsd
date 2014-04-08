@@ -3,8 +3,8 @@
 	<element name="coordonnees">
 		<complexType>
 			<sequence>
-				<element name="longitude" type="float"></element>
-				<element name="latitude" type="float"></element>
+				<element name="longitude" type="double"></element>
+				<element name="latitude" type="double"></element>
 			</sequence>
 		</complexType>
 	</element>
@@ -12,7 +12,7 @@
 	<element name="bikestation">
 		<complexType>
 			<sequence>
-				<element name="id" type="string"></element>
+				<element name="id" type="long"></element>
 				<element name="name" type="string"></element>
 				<element name="adresse" type="string"></element>
 				<element name="availableBikes" type="int"></element>
@@ -25,7 +25,7 @@
 	<element name="transportLine">
 		<complexType>
 			<sequence>
-				<element name="id" type="string"></element>
+				<element name="id" type="long"></element>
 				<element name="name" type="string"></element>
 				<element name="shortName" type="string"></element>
 				<element name="nbLikes" type="int"></element>
@@ -36,7 +36,7 @@
 	<element name="user">
 		<complexType>
 			<sequence>
-				<element name="id" type="string"></element>
+				<element name="id" type="long"></element>
 				<element name="firstName" type="string"></element>
 				<element name="lastName" type="string"></element>
 				<element name="mail" type="string"></element>
@@ -51,7 +51,7 @@
 	<element name="LikeRequest">
 		<complexType>
 			<sequence>
-				<element name="id" type="string"></element>
+				<element name="id" type="long"></element>
 				<element name="name" type="string"></element>
 				<element name="shortName" type="string"></element>
 				<element name="like" type="boolean"></element>								

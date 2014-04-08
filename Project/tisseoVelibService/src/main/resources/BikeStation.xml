@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tns:bikestation xmlns:tns="http://www.example.org/TisseoVelib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/TisseoVelib TisseoVelib.xsd ">
-  <tns:id>1</tns:id>
-  <tns:name>BikeStationTest</tns:name>
-  <tns:adresse>29 Rue Pablo Picasso 09600 Laroque d’Olmes</tns:adresse>
-  <tns:availableBikes>30</tns:availableBikes>
-  <tns:status>OPEN</tns:status>
+  <tns:id>0</tns:id>
+  <tns:name>tns:name</tns:name>
+  <tns:adresse>tns:adresse</tns:adresse>
+  <tns:availableBikes>0</tns:availableBikes>
+  <tns:status>tns:status</tns:status>
   <tns:coordonnees>
-    <tns:longitude>5.8</tns:longitude>
-    <tns:latitude>12.5</tns:latitude>
+    <tns:longitude>0.0</tns:longitude>
+    <tns:latitude>0.0</tns:latitude>
   </tns:coordonnees>
 </tns:bikestation>

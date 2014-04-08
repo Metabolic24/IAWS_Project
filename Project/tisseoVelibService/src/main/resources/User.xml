@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tns:user xmlns:tns="http://www.example.org/TisseoVelib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/TisseoVelib TisseoVelib.xsd ">
-  <tns:id>42</tns:id>
-  <tns:firstName>Assyl</tns:firstName>
-  <tns:lastName>Louahadj</tns:lastName>
-  <tns:mail>assyl.louahadj@hotmail.fr</tns:mail>
-  <tns:adress>10 Rue Pablo Picasso 09600 Laroque d’Olmes</tns:adress>
+  <tns:id>0</tns:id>
+  <tns:firstName>tns:firstName</tns:firstName>
+  <tns:lastName>tns:lastName</tns:lastName>
+  <tns:mail>tns:mail</tns:mail>
+  <tns:adress>tns:adress</tns:adress>
   <tns:coordonnees>
-    <tns:longitude>15.15</tns:longitude>
-    <tns:latitude>24.24</tns:latitude>
+    <tns:longitude>0.0</tns:longitude>
+    <tns:latitude>0.0</tns:latitude>
   </tns:coordonnees>
 </tns:user>

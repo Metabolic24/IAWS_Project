@@ -2,7 +2,10 @@ package iaws.ws;
 
 import iaws.domain.tisseovelib.AvailableBikesRequest;
 import iaws.domain.tisseovelib.AvailableBikesResponse;
-import iaws.services.AvailableBikesService;
+import iaws.domain.tisseovelib.LikeRequest;
+import iaws.domain.tisseovelib.LikeResponse;
+import iaws.services.BikeService;
+import iaws.services.BusMetroService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -15,19 +18,28 @@ public class AvailableBikesEndpoint {
 	
 	private static final String NAMESPACE_URI = "http://www.example.org/TisseoVelib";
 	
-	private AvailableBikesService bikeService;
+	private BikeService bikeService;
+	private BusMetroService busMetroService;
 	
 	@Autowired
-	public AvailableBikesEndpoint(AvailableBikesService bikeService) {
+	public AvailableBikesEndpoint(BikeService bikeService) {
 	    this.bikeService = bikeService;
+	    this.busMetroService=busMetroService;
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AvailableBikesRequest")                  
-	public @ResponsePayload AvailableBikesResponse handleHolidayRequest(@RequestPayload AvailableBikesRequest availableBikesRequest)               
-	      throws Exception {
+	public @ResponsePayload AvailableBikesResponse handleAvailableBikesRequest(@RequestPayload AvailableBikesRequest availableBikesRequest) {
 			String name=availableBikesRequest.getName();
 			AvailableBikesResponse response=new AvailableBikesResponse();
 			response.setAvailableBikes(bikeService.filterStationsByName(name).getAvailableBikes());
+			return response;
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "LikeRequest")                  
+	public @ResponsePayload LikeResponse handleLikeRequest(@RequestPayload LikeRequest availableBikesRequest) {
+			String name=availableBikesRequest.getName();
+			LikeResponse response=new LikeResponse();
+			response.setEtat("OK");
 			return response;
 	}
 }

@@ -1,5 +1,5 @@
 
-public interface AvailableBikesService {
+public interface BikeService {
 	
 	public BikeStation filterStationsByName(String name);
 }

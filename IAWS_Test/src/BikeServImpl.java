@@ -1,8 +1,3 @@
-package iaws.services.impl;
-
-import iaws.domain.tisseovelib.BikeStation;
-import iaws.domain.tisseovelib.Coordonnees;
-import iaws.services.AvailableBikesService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,14 +9,14 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class AvailableBikesServImpl implements AvailableBikesService {
+public class BikeServImpl implements BikeService {
 
 	private ArrayList<BikeStation> stationList;
 	
 	//GET https://api.jcdecaux.com/vls/v1/stations?contract={contract_name} HTTP/1.1
 	//Pour récupérer la liste des stations
 	
-	public AvailableBikesServImpl(){
+	public BikeServImpl(){
 		stationList=new ArrayList<BikeStation>();
 		refreshList();
 	}
@@ -87,5 +82,9 @@ public class AvailableBikesServImpl implements AvailableBikesService {
 		
 		in.close();
 		return source;
+	}
+	
+	public static void main(String args[]) {
+		System.out.println(new BikeServImpl().filterStationsByName("00040 - COLOMBETTE").getAvailableBikes());
 	}
 }

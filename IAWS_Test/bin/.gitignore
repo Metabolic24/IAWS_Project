@@ -2,3 +2,9 @@
 /AvailableBikesService.class
 /BikeStation.class
 /Coordonnees.class
+/LikeService.class
+/LikeServImpl.class
+/BikeService.class
+/BikeServImpl.class
+/BusMetroService.class
+/BusMetroServImpl.class

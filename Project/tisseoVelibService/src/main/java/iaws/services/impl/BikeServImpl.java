@@ -1,3 +1,8 @@
+package iaws.services.impl;
+
+import iaws.domain.tisseovelib.BikeStation;
+import iaws.domain.tisseovelib.Coordonnees;
+import iaws.services.BikeService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,14 +14,14 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class AvailableBikesServImpl implements AvailableBikesService {
+public class BikeServImpl implements BikeService {
 
 	private ArrayList<BikeStation> stationList;
 	
 	//GET https://api.jcdecaux.com/vls/v1/stations?contract={contract_name} HTTP/1.1
 	//Pour récupérer la liste des stations
 	
-	public AvailableBikesServImpl(){
+	public BikeServImpl(){
 		stationList=new ArrayList<BikeStation>();
 		refreshList();
 	}
@@ -38,9 +43,7 @@ public class AvailableBikesServImpl implements AvailableBikesService {
 	public void buildList(String liste) {
 		stationList.clear();
 		try {
-			JSONArray array = new JSONArray(get(
-					"https://api.jcdecaux.com/vls/v1/stations?contract=Toulouse"
-						+ "&apiKey=e3b3de809763e6912653716a66ea7cea8a175a16"));
+			JSONArray array = new JSONArray(liste);
 			
 			for (int i=0;i<array.length();i++) {
 				BikeStation newStation=new BikeStation();
@@ -82,9 +85,5 @@ public class AvailableBikesServImpl implements AvailableBikesService {
 		
 		in.close();
 		return source;
-	}
-	
-	public static void main(String args[]) {
-		System.out.println(new AvailableBikesServImpl().filterStationsByName("00040 - COLOMBETTE").getAvailableBikes());
 	}
 }

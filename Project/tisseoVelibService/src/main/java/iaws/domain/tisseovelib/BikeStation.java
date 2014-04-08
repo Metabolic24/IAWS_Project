@@ -5,6 +5,7 @@
 // Généré le : 2014.04.08 à 01:45:34 AM CEST 
 //
 
+
 package iaws.domain.tisseovelib;
 
 import javax.xml.bind.annotation.XmlAccessType;
