@@ -44,6 +44,20 @@ public class BusMetroServImpl implements BusMetroService {
 		return null;
 	}
 	
+	public boolean isDisrupted(String shortName) {
+		try {
+			JSONArray array=new JSONObject(get("http://pt.data.tisseo.fr/linesDisruptedList?format=json&lineShortName="+shortName
+				+ "&key=a03561f2fd10641d96fb8188d209414d8")).getJSONArray("lines");
+			if(array.length()==0) {
+				return false;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
 	
 	public void refreshList() {
 		try {

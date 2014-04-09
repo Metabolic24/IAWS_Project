@@ -10,4 +10,5 @@ public interface BusMetroService {
 	public TransportLine filterStationsByShortname(String shortName);
 	public CheckPoint getNearestCheckPoint(Coordonnees coord,long id);
 	public String getNextTimeToCheckPoint(long id);
+	public int getDistanceEnMetreAvec(Coordonnees coordonnees1,Coordonnees coordonnees2);
 }

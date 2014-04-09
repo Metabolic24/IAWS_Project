@@ -1,6 +1,7 @@
 package iaws.services.impl;
 
 import iaws.domain.tisseovelib.BikeStation;
+import iaws.domain.tisseovelib.CheckPoint;
 import iaws.domain.tisseovelib.Coordonnees;
 import iaws.services.BikeService;
 
@@ -60,6 +61,60 @@ public class BikeServImpl implements BikeService {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public BikeStation getNearestBikeStation(Coordonnees coord,long id){
+		refreshList();
+		
+		if(!stationList.isEmpty()){
+			BikeStation currentStation;
+			BikeStation res=stationList.get(0);
+			int bestValue=getDistanceEnMetreAvec(coord,res.getCoordonnees());
+			
+			for (int i=0;i<stationList.size();i++) {
+				currentStation=stationList.get(i);
+				int prov=getDistanceEnMetreAvec(coord,currentStation.getCoordonnees());
+				if(prov<bestValue && prov>=0){
+					bestValue=prov;
+					res=currentStation;
+				}
+			}
+			return res;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public int getDistanceEnMetreAvec(Coordonnees coordonnees1,Coordonnees coordonnees2){
+
+		int toReturn = getDistanceBetween(coordonnees1.getLatitude(), coordonnees1.getLongitude(),
+				coordonnees2.getLatitude(),coordonnees2.getLongitude());
+
+		return toReturn;
+	}
+
+	/**
+	 * Distance en metre entre 2 coordonnees
+	 * http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
+	 * @return distance en metre
+	 */
+	private int getDistanceBetween(double lat1, double lon1, double lat2,double lon2) {
+		  int R = 6371; // Radius of the earth in km
+		  double dLat = deg2rad(lat2-lat1);  // deg2rad below
+		  double dLon = deg2rad(lon2-lon1); 
+		  Double a = 
+		    Math.sin(dLat/2) * Math.sin(dLat/2) +
+		    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+		    Math.sin(dLon/2) * Math.sin(dLon/2)
+		    ; 
+		  double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+		  double d = R * c; // Distance in km
+		  return (int)(d * 1000);
+	}
+
+	private double deg2rad(double deg) {
+		return deg * (Math.PI/180);
 	}
 	
 	public BikeStation filterStationsByName(String name) {

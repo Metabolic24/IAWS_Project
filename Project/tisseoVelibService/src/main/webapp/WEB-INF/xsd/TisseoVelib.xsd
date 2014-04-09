@@ -76,10 +76,10 @@
 		</complexType>
 	</element>
 	
-	<element name="AvailableBikesRequest">
+	<element name="BestBikeBusMetroRequest">
 		<complexType>
 			<sequence>
-				<element name="name" type="string"></element>
+				<element ref="tns:coordonnees"></element>
 			</sequence>
 		</complexType>
 	</element>
@@ -110,4 +110,16 @@
 			</sequence>
 		</complexType>
 	</element>
+	
+	<element name="BestBikeBusMetroResponse">
+		<complexType>
+			<sequence>
+				<element name="type" type="string"></element>
+				<element name="shortName" type="string"></element>
+				<element name="startCheckPoint" type="string"></element>
+				<element name="endCheckPoint" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
 </schema>
+

@@ -15,6 +15,8 @@ import iaws.domain.tisseovelib.User;
 import iaws.services.BikeService;
 import iaws.services.BusMetroService;
 
+import iaws.domain.tisseovelib.BestBikeBusMetroRequest;
+import iaws.domain.tisseovelib.BestBikeBusMetroResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -58,6 +60,7 @@ public class AvailableBikesEndpoint {
 			TransportLine currentLine=busMetroService.filterStationsByShortname(likeRequest.getShortName());
 			if(currentLine!=null) {
 				if(currentUser.likeUnlike(currentLine.getId(),likeRequest.isLike())){
+					currentLine.setNbLikes(currentLine.getNbLikes()+1);
 					response.setEtat("OK");
 				}
 				else{
@@ -81,6 +84,16 @@ public class AvailableBikesEndpoint {
 			CheckPoint nearestCheckPoint=busMetroService.getNearestCheckPoint(UNIVERSITE, currentLine.getId());
 			response.setName(nearestCheckPoint.getName());
 			response.setTime(busMetroService.getNextTimeToCheckPoint(nearestCheckPoint.getId()));
+		}
+		return response;
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "NextBusMetroRequest")                  
+	public @ResponsePayload BestBikeBusMetroResponse handleBestBikeBusMetroRequest(@RequestPayload BestBikeBusMetroRequest bestBikeBusMetroRequest) {
+		BestBikeBusMetroResponse response=new BestBikeBusMetroResponse();
+		int dist=busMetroService.getDistanceEnMetreAvec(UNIVERSITE, bestBikeBusMetroRequest.getCoordonnees());
+		if(dist<8000) {
+			
 		}
 		return response;
 	}
