@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import iaws.domain.tisseovelib.AvailableBikesRequest;
 import iaws.domain.tisseovelib.AvailableBikesResponse;
+import iaws.domain.tisseovelib.BikeStation;
 import iaws.domain.tisseovelib.CheckPoint;
 import iaws.domain.tisseovelib.Coordonnees;
 import iaws.domain.tisseovelib.LikeRequest;
@@ -14,9 +15,9 @@ import iaws.domain.tisseovelib.TransportLine;
 import iaws.domain.tisseovelib.User;
 import iaws.services.BikeService;
 import iaws.services.BusMetroService;
-
 import iaws.domain.tisseovelib.BestBikeBusMetroRequest;
 import iaws.domain.tisseovelib.BestBikeBusMetroResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -28,6 +29,9 @@ public class AvailableBikesEndpoint {
 	
 	private static final String NAMESPACE_URI = "http://www.example.org/TisseoVelib";
 	private static final Coordonnees UNIVERSITE = new Coordonnees(43.5608814,1.4633499);
+	
+	private static final int WALKSPEED_KM_H = 5;
+	private static final int BIKE_KM_H = 10;
 	
 	private ArrayList<User> userList;
 	
@@ -88,12 +92,25 @@ public class AvailableBikesEndpoint {
 		return response;
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "NextBusMetroRequest")                  
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "BestBikeBusMetroRequest")                  
 	public @ResponsePayload BestBikeBusMetroResponse handleBestBikeBusMetroRequest(@RequestPayload BestBikeBusMetroRequest bestBikeBusMetroRequest) {
 		BestBikeBusMetroResponse response=new BestBikeBusMetroResponse();
+		boolean bikeIsBetter;
 		int dist=busMetroService.getDistanceEnMetreAvec(UNIVERSITE, bestBikeBusMetroRequest.getCoordonnees());
 		if(dist<8000) {
-			
+			bikeIsBetter=true;
+			BikeStation startStation=bikeService.getNearestBikeStation(UNIVERSITE);
+			BikeStation endStation=bikeService.getNearestBikeStation(bestBikeBusMetroRequest.getCoordonnees());
+			int bikeDist=busMetroService.getDistanceEnMetreAvec(startStation.getCoordonnees(), endStation.getCoordonnees());
+			int walkDist=dist-bikeDist;
+			if(walkDist<0){
+				bikeIsBetter=false;
+				
+				
+			}
+			else{
+				int timeEstimed=bikeDist*60/BIKE_KM_H+walkDist*60/WALKSPEED_KM_H;
+			}
 		}
 		return response;
 	}

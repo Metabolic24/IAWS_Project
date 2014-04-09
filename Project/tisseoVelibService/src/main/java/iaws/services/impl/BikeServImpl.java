@@ -63,7 +63,7 @@ public class BikeServImpl implements BikeService {
 		}
 	}
 	
-	public BikeStation getNearestBikeStation(Coordonnees coord,long id){
+	public BikeStation getNearestBikeStation(Coordonnees coord){
 		refreshList();
 		
 		if(!stationList.isEmpty()){
