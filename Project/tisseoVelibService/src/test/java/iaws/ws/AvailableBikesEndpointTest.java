@@ -31,15 +31,17 @@ public class AvailableBikesEndpointTest {
         mockClient = MockWebServiceClient.createClient(applicationContext);
     }
 
-    @Test
+    //Ce test ne peut pas être effectué car il varie avec le temps
+    
     public void availableBikesRequest() throws Exception {
         Source requestPayload = new StreamSource(new ClassPathResource("AvailableBikesRequest.xml").getInputStream() );
         Source responsePayload = new StreamSource(new ClassPathResource("AvailableBikesResponse.xml").getInputStream());
-
+        
         mockClient.sendRequest(withPayload(requestPayload)).
                 andExpect(payload(responsePayload));
     }
     
+    @Test
     public void likeRequest() throws Exception {
     	Source requestPayload = new StreamSource(new ClassPathResource("LikeRequest.xml").getInputStream() );
         Source responsePayload = new StreamSource(new ClassPathResource("LikeResponse.xml").getInputStream());
@@ -48,6 +50,8 @@ public class AvailableBikesEndpointTest {
                 andExpect(payload(responsePayload));
     }
     
+    //Ce test ne peut pas être effectué car il varie avec le temps
+    
     public void nextBusMetroRequest() throws Exception {
     	Source requestPayload = new StreamSource(new ClassPathResource("NextBusMetroRequest.xml").getInputStream() );
         Source responsePayload = new StreamSource(new ClassPathResource("NextBusMetroResponse.xml").getInputStream());
@@ -55,6 +59,8 @@ public class AvailableBikesEndpointTest {
         mockClient.sendRequest(withPayload(requestPayload)).
                 andExpect(payload(responsePayload));
     }
+    
+    //Ce test ne peut pas être effectué car il varie avec le temps
     
     public void bestBikeBusMetroRequest() throws Exception {
     	Source requestPayload = new StreamSource(new ClassPathResource("BestBikeBusMetroRequest.xml").getInputStream() );

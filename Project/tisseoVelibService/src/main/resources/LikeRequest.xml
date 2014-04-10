@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tns:LikeRequest xmlns:tns="http://www.example.org/TisseoVelib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/TisseoVelib TisseoVelib.xsd ">
-  <tns:id>0</tns:id>
-  <tns:shortName>tns:shortName</tns:shortName>
+  <tns:id>1</tns:id>
+  <tns:shortName>A</tns:shortName>
   <tns:like>true</tns:like>
 </tns:LikeRequest>

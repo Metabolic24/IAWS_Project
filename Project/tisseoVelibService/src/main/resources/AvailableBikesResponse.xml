@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tns:AvailableBikesResponse xmlns:tns="http://www.example.org/TisseoVelib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/TisseoVelib TisseoVelib.xsd ">
-  <tns:availableBikes>25</tns:availableBikes>
-</tns:AvailableBikesResponse>
+<ns2:AvailableBikesResponse xmlns:ns2="http://www.example.org/TisseoVelib">
+	<ns2:availableBikes>13</ns2:availableBikes>
+</ns2:AvailableBikesResponse>

@@ -50,7 +50,7 @@ public class BusMetroServImpl implements BusMetroService {
 	public String getNextTimeToCheckPoint(long id){
 		String res="";
 		try {
-			JSONArray array=new JSONObject(ToolBox.get("http://pt.data.tisseo.fr/departureBoards?stopPointId="+String.valueOf(id)
+			JSONArray array=new JSONObject(ToolBox.get("http://pt.data.tisseo.fr/departureBoard?stopPointId="+String.valueOf(id)
 						+"&format=json&number=1&key=a03561f2fd10641d96fb8188d209414d8"))
 							.getJSONObject("departures").getJSONArray("departure");
 			
@@ -63,22 +63,22 @@ public class BusMetroServImpl implements BusMetroService {
 		return res;
 	}
 	
-	public String getAvailableLines(
-			Coordonnees coordonnees1, Coordonnees coordonnees2){
+	public String getAvailableLines(Coordonnees coordonnees1, Coordonnees coordonnees2){
 		String res="";
 		ArrayList<TransportLine> lineList=getNearestAvailableLines(coordonnees1, coordonnees2);
+		
 		for(int i=0;i<lineList.size();i++){
 			res+=lineList.get(i).getShortName()+" ; ";
 		}
-		return res;
 		
+		return res;
 	}
 	
 	public ArrayList<TransportLine> getNearestAvailableLines(Coordonnees coord1,Coordonnees coord2) {
 		ArrayList<TransportLine>resList = new ArrayList<TransportLine>();
-		
 		ArrayList<TransportLine> startCPList = getNearestLines(coord1,10);
 		ArrayList<TransportLine> endCPList = getNearestLines(coord2,10);
+		
 		for(int i=0;i<startCPList.size();i++){
 			TransportLine currentLine=startCPList.get(i);
 			if(endCPList.contains(currentLine) && !resList.contains(currentLine) && isDisrupted(currentLine.getShortName())){

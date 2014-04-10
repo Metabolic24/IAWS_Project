@@ -67,22 +67,30 @@ public class AvailableBikesEndpoint {
 			TransportLine currentLine=busMetroService.filterLinesByShortname(likeRequest.getShortName());
 			if(currentLine!=null) {
 				if(currentUser.likeUnlike(currentLine.getId(),like)){
-					if(like)
+					if(like){
 						currentLine.setNbLikes(currentLine.getNbLikes()+1);
-					else
+					}
+					else {
 						currentLine.setNbLikes(currentLine.getNbLikes()-1);
+					}
 					response.setEtat("OK");
 				}
 				else{
-					if(like)
+					if(like) {
 						response.setEtat("OK : Already Liked");
-					else
+					}
+					else {
 						response.setEtat("OK : Already Unliked");
+					}
 				}
 			}
-			response.setEtat("ERROR : Line doesn't exist");
+			else {
+				response.setEtat("ERROR : Line doesn't exist");
+			}
 		}
-		response.setEtat("ERROR : User doesn't exist");
+		else {
+			response.setEtat("ERROR : User doesn't exist");
+		}
 		return response;
 	}
 	
@@ -114,11 +122,12 @@ public class AvailableBikesEndpoint {
 			int bikeDist=ToolBox.getDistMeter(startStation.getCoordonnees(), endStation.getCoordonnees());
 			int walkDist=ToolBox.getDistMeter(UNIVERSITE, startStation.getCoordonnees())
 					+ToolBox.getDistMeter(endStation.getCoordonnees(), destCoordonnees);
-			if(walkDist>(dist/4)){
+			
+			if(walkDist>(dist/4) || dist-bikeDist<0){
 				bikeIsBetter=false;
 			}
 			else{
-				timeEstimed=bikeDist*60/BIKE_KM_H + walkDist*60/WALKSPEED_KM_H;
+				timeEstimed=bikeDist*60/(BIKE_KM_H*1000) + walkDist*60/(WALKSPEED_KM_H*1000);
 				response.setType("Bike");
 				response.setStartBikeStation(endStation.getName());
 				response.setEndBikeStation(endStation.getName());
@@ -129,13 +138,14 @@ public class AvailableBikesEndpoint {
 		}
 		if(!bikeIsBetter){
 			String availableLines = busMetroService.getAvailableLines(UNIVERSITE,destCoordonnees);
-			timeEstimed=dist*60/BUS_METRO_KM_H;
+			timeEstimed=dist*60/(BUS_METRO_KM_H*1000);
 			response.setType("Bus/Metro");
 			response.setStartBikeStation("");
 			response.setEndBikeStation("");
 			response.setLinesAvailable(availableLines);
 			response.setTimeEstimed(timeEstimed);
 		}
+		
 		return response;
 	}
 }

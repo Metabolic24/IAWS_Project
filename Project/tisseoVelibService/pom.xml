@@ -34,7 +34,8 @@
 		        			<goal>xjc</goal>  
 		       			</goals>  
 		      		</execution>  
-		     	</executions>  
+		     	</executions>
+		     	<version>1.6</version>  
 		     	<configuration>  
 		      		<schemaDirectory>src/main/webapp/WEB-INF/xsd/</schemaDirectory>  
 		     	</configuration>
