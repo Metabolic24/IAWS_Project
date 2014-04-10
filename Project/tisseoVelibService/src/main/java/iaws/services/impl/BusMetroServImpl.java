@@ -6,12 +6,8 @@ import iaws.domain.tisseovelib.Coordonnees;
 import iaws.domain.tisseovelib.TransportLine;
 import iaws.domain.tisseovelib.User;
 import iaws.services.BusMetroService;
+import iaws.ws.ToolBox;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -31,7 +27,7 @@ public class BusMetroServImpl implements BusMetroService {
 	}
 	
 	@Override
-	public TransportLine filterStationsByID(long id){
+	public TransportLine filterLinesByID(long id){
 		for (int i=0;i<lineList.size();i++) {
 			if(lineList.get(i).getId()==id) {
 				return lineList.get(i); 
@@ -41,7 +37,7 @@ public class BusMetroServImpl implements BusMetroService {
 	}
 	
 	@Override
-	public TransportLine filterStationsByShortname(String shortName){
+	public TransportLine filterLinesByShortname(String shortName){
 		for (int i=0;i<lineList.size();i++) {
 			TransportLine currentLine = lineList.get(i);
 			if(currentLine.getShortName().equals(shortName)) {
@@ -54,7 +50,7 @@ public class BusMetroServImpl implements BusMetroService {
 	public String getNextTimeToCheckPoint(long id){
 		String res="";
 		try {
-			JSONArray array=new JSONObject(get("http://pt.data.tisseo.fr/departureBoards?stopPointId="+String.valueOf(id)
+			JSONArray array=new JSONObject(ToolBox.get("http://pt.data.tisseo.fr/departureBoards?stopPointId="+String.valueOf(id)
 						+"&format=json&number=1&key=a03561f2fd10641d96fb8188d209414d8"))
 							.getJSONObject("departures").getJSONArray("departure");
 			
@@ -67,17 +63,96 @@ public class BusMetroServImpl implements BusMetroService {
 		return res;
 	}
 	
+	public String getAvailableLines(
+			Coordonnees coordonnees1, Coordonnees coordonnees2){
+		String res="";
+		ArrayList<TransportLine> lineList=getNearestAvailableLines(coordonnees1, coordonnees2);
+		for(int i=0;i<lineList.size();i++){
+			res+=lineList.get(i).getShortName()+" ; ";
+		}
+		return res;
+		
+	}
+	
+	public ArrayList<TransportLine> getNearestAvailableLines(Coordonnees coord1,Coordonnees coord2) {
+		ArrayList<TransportLine>resList = new ArrayList<TransportLine>();
+		
+		ArrayList<TransportLine> startCPList = getNearestLines(coord1,10);
+		ArrayList<TransportLine> endCPList = getNearestLines(coord2,10);
+		for(int i=0;i<startCPList.size();i++){
+			TransportLine currentLine=startCPList.get(i);
+			if(endCPList.contains(currentLine) && !resList.contains(currentLine) && isDisrupted(currentLine.getShortName())){
+				resList.add(currentLine);
+			}
+		}
+		
+		return resList;
+	}
+	
+	private boolean isDisrupted(String shortName) {
+		try {
+			JSONArray array=new JSONObject(ToolBox.get("http://pt.data.tisseo.fr/linesDisruptedList?lineShortName="+shortName+
+					"&format=json&key=a03561f2fd10641d96fb8188d209414d8")).getJSONArray("lines");
+			if(array.length()==0){
+				return false;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public ArrayList<TransportLine> getNearestLines(Coordonnees coord, int nbResults){
+		refreshList();
+		ArrayList<String> shortNameList = new ArrayList<String>();
+		ArrayList<TransportLine> resList=new ArrayList<TransportLine>();
+		
+		try {
+			JSONArray array=new JSONObject(ToolBox.get("http://pt.data.tisseo.fr/stopPointsList?bbox="
+						+String.valueOf(coord.getLatitude())+","+String.valueOf(coord.getLongitude())+","
+					+String.valueOf(coord.getLatitude()+0.01)+","+String.valueOf(coord.getLongitude()+0.01)
+						+"&sortByDistance=1&displayCoordXY=1&format=json"
+					+ "&key=a03561f2fd10641d96fb8188d209414d8")).getJSONObject("physicalStops").getJSONArray("physicalStop");
+			
+			int max = (nbResults>array.length()) ? array.length() : nbResults;
+			
+			for (int i=0;i<max;i++) {
+				JSONArray array2=array.getJSONObject(i).getJSONArray("destinations");
+				for(int j=0;j<array2.length();j++){
+					JSONArray array3=array2.getJSONObject(i).getJSONArray("line");
+					for(int k=0;k<array3.length();k++){
+						String currentShortName=array3.getJSONObject(k).getString("shortName");
+						if(!shortNameList.contains(currentShortName)){
+							shortNameList.add(currentShortName);
+						}
+					}
+				}
+			}
+			
+			for(int i=0;i<shortNameList.size();i++){
+				resList.add(filterLinesByShortname(shortNameList.get(i)));
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return resList;
+	}
+	
+	
 	public CheckPoint getNearestCheckPoint(Coordonnees coord,long id){
 		CheckPoint currentCheckPoint;
 		ArrayList<CheckPoint> checkPointList=getLineCheckPoints(id);
 		
 		if(!checkPointList.isEmpty()){
 			CheckPoint res=checkPointList.get(0);
-			int bestValue=getDistanceEnMetreAvec(coord,res.getCoordonnees());
+			int bestValue=ToolBox.getDistMeter(coord,res.getCoordonnees());
 			
 			for (int i=0;i<checkPointList.size();i++) {
 				currentCheckPoint=checkPointList.get(i);
-				int prov=getDistanceEnMetreAvec(coord,currentCheckPoint.getCoordonnees());
+				int prov=ToolBox.getDistMeter(coord,currentCheckPoint.getCoordonnees());
 				if(prov<bestValue && prov>=0){
 					bestValue=prov;
 					res=currentCheckPoint;
@@ -93,7 +168,7 @@ public class BusMetroServImpl implements BusMetroService {
 	public ArrayList<CheckPoint> getLineCheckPoints(long id){
 		ArrayList<CheckPoint> checkPointList=new ArrayList<CheckPoint>();
 		try {
-			JSONArray array=new JSONObject(get("http://pt.data.tisseo.fr/stopPointsList?displayCoordXY=1&format=json&lineId="+String.valueOf(id)
+			JSONArray array=new JSONObject(ToolBox.get("http://pt.data.tisseo.fr/stopPointsList?displayCoordXY=1&format=json&lineId="+String.valueOf(id)
 					+ "&key=a03561f2fd10641d96fb8188d209414d8")).getJSONObject("physicalStops").getJSONArray("physicalStop");
 			
 			for (int i=0;i<array.length();i++) {
@@ -114,13 +189,13 @@ public class BusMetroServImpl implements BusMetroService {
 	
 	public void refreshList() {
 		try {
-			JSONArray array=new JSONObject(get("http://pt.data.tisseo.fr/linesList?format=json"
+			JSONArray array=new JSONObject(ToolBox.get("http://pt.data.tisseo.fr/linesList?format=json"
 					+ "&key=a03561f2fd10641d96fb8188d209414d8")).getJSONObject("lines").getJSONArray("line");
 			
 			for (int i=0;i<array.length();i++) {
 				TransportLine currentLine;
 				JSONObject line = array.getJSONObject(i);
-				if((currentLine=filterStationsByID(line.getLong("id")))==null){
+				if((currentLine=filterLinesByID(line.getLong("id")))==null){
 					currentLine=new TransportLine();
 					currentLine.setId(line.getLong("id"));
 					currentLine.setName(line.getString("name"));
@@ -133,67 +208,20 @@ public class BusMetroServImpl implements BusMetroService {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public String get(String url) throws IOException{
-		String inputLine;
-		String source ="";
-		URL oracle = new URL(url);
-		URLConnection yc = oracle.openConnection();
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(yc.getInputStream()));
-		
-		 
-		while ((inputLine = in.readLine()) != null)
-			source +=inputLine;
-		
-		in.close();
-		return source;
-	}
-	
-	public int getDistanceEnMetreAvec(Coordonnees coordonnees1,Coordonnees coordonnees2){
-
-		int toReturn = getDistanceBetween(coordonnees1.getLatitude(), coordonnees1.getLongitude(),
-				coordonnees2.getLatitude(),coordonnees2.getLongitude());
-
-		return toReturn;
-	}
-
-	/**
-	 * Distance en metre entre 2 coordonnees
-	 * http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
-	 * @return distance en metre
-	 */
-	private int getDistanceBetween(double lat1, double lon1, double lat2,double lon2) {
-		  int R = 6371; // Radius of the earth in km
-		  double dLat = deg2rad(lat2-lat1);  // deg2rad below
-		  double dLon = deg2rad(lon2-lon1); 
-		  Double a = 
-		    Math.sin(dLat/2) * Math.sin(dLat/2) +
-		    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-		    Math.sin(dLon/2) * Math.sin(dLon/2)
-		    ; 
-		  double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-		  double d = R * c; // Distance in km
-		  return (int)(d * 1000);
-	}
-
-	private double deg2rad(double deg) {
-		return deg * (Math.PI/180);
-	}
-	
+	}	
 	
 	public static void main(String[] args) {
 		BusMetroServImpl serv=new BusMetroServImpl();
 		User currentUser=new User("Assyl","Louahadj","assyl.louahadj@gmail.com","Toulouse",14.8,15.25);
 		currentUser.setId(0);
 		System.out.println(serv.getLineList().size());
-		TransportLine currentLine=serv.filterStationsByShortname("B");
+		TransportLine currentLine=serv.filterLinesByShortname("B");
 		if (currentLine!=null) {
 			System.out.println("OK");
 			if(currentUser.likeUnlike(currentLine.getId(),true)) {
+				currentLine.setNbLikes(currentLine.getNbLikes()+1);
 				System.out.println("OK");
 			}
-		}
+		}		
 	}
 }

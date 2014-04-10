@@ -58,6 +58,14 @@
 	
 	<!--Requests-->
 	
+	<element name="AvailableBikesRequest">
+		<complexType>
+			<sequence>
+				<element name="name" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
 	<element name="LikeRequest">
 		<complexType>
 			<sequence>
@@ -86,6 +94,14 @@
 	
 	<!--Responses-->
 	
+	<element name="AvailableBikesResponse">
+		<complexType>
+			<sequence>
+				<element name="availableBikes" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
 	<element name="LikeResponse">
 		<complexType>
 			<sequence>
@@ -103,21 +119,14 @@
 		</complexType>
 	</element>
 	
-	<element name="AvailableBikesResponse">
-		<complexType>
-			<sequence>
-				<element name="availableBikes" type="int"></element>
-			</sequence>
-		</complexType>
-	</element>
-	
 	<element name="BestBikeBusMetroResponse">
 		<complexType>
 			<sequence>
 				<element name="type" type="string"></element>
-				<element name="shortName" type="string"></element>
-				<element name="startCheckPoint" type="string"></element>
-				<element name="endCheckPoint" type="string"></element>
+				<element name="timeEstimed" type="int"></element>
+				<element name="linesAvailable" type="string"></element>
+				<element name="startBikeStation" type="string"></element>
+				<element name="endBikeStation" type="string"></element>
 			</sequence>
 		</complexType>
 	</element>

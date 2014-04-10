@@ -58,6 +58,14 @@
 	
 	<!--Requests-->
 	
+	<element name="AvailableBikesRequest">
+		<complexType>
+			<sequence>
+				<element name="name" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
 	<element name="LikeRequest">
 		<complexType>
 			<sequence>
@@ -76,15 +84,23 @@
 		</complexType>
 	</element>
 	
-	<element name="AvailableBikesRequest">
+	<element name="BestBikeBusMetroRequest">
 		<complexType>
 			<sequence>
-				<element name="name" type="string"></element>
+				<element ref="tns:coordonnees"></element>
 			</sequence>
 		</complexType>
 	</element>
 	
 	<!--Responses-->
+	
+	<element name="AvailableBikesResponse">
+		<complexType>
+			<sequence>
+				<element name="availableBikes" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
 	
 	<element name="LikeResponse">
 		<complexType>
@@ -103,11 +119,16 @@
 		</complexType>
 	</element>
 	
-	<element name="AvailableBikesResponse">
+	<element name="BestBikeBusMetroResponse">
 		<complexType>
 			<sequence>
-				<element name="availableBikes" type="int"></element>
+				<element name="type" type="string"></element>
+				<element name="timeEstimed" type="int"></element>
+				<element name="linesAvailable" type="string"></element>
+				<element name="startBikeStation" type="string"></element>
+				<element name="endBikeStation" type="string"></element>
 			</sequence>
 		</complexType>
 	</element>
 </schema>
+

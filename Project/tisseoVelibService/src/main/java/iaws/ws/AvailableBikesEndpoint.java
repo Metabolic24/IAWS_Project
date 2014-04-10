@@ -32,6 +32,7 @@ public class AvailableBikesEndpoint {
 	
 	private static final int WALKSPEED_KM_H = 5;
 	private static final int BIKE_KM_H = 10;
+	private static final int BUS_METRO_KM_H = 30;
 	
 	private ArrayList<User> userList;
 	
@@ -59,9 +60,9 @@ public class AvailableBikesEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "LikeRequest")                  
 	public @ResponsePayload LikeResponse handleLikeRequest(@RequestPayload LikeRequest likeRequest) {
 		LikeResponse response=new LikeResponse();
-		User currentUser=filterUserByID(likeRequest.getId());
+		User currentUser=ToolBox.filterUserByID(userList,likeRequest.getId());
 		if (currentUser!=null) {
-			TransportLine currentLine=busMetroService.filterStationsByShortname(likeRequest.getShortName());
+			TransportLine currentLine=busMetroService.filterLinesByShortname(likeRequest.getShortName());
 			if(currentLine!=null) {
 				if(currentUser.likeUnlike(currentLine.getId(),likeRequest.isLike())){
 					currentLine.setNbLikes(currentLine.getNbLikes()+1);
@@ -83,7 +84,7 @@ public class AvailableBikesEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "NextBusMetroRequest")                  
 	public @ResponsePayload NextBusMetroResponse handleNextBusMetroRequest(@RequestPayload NextBusMetroRequest nextBusMetroRequest) {
 		NextBusMetroResponse response=new NextBusMetroResponse();
-		TransportLine currentLine = busMetroService.filterStationsByShortname(nextBusMetroRequest.getShortName());
+		TransportLine currentLine = busMetroService.filterLinesByShortname(nextBusMetroRequest.getShortName());
 		if(currentLine!=null) {
 			CheckPoint nearestCheckPoint=busMetroService.getNearestCheckPoint(UNIVERSITE, currentLine.getId());
 			response.setName(nearestCheckPoint.getName());
@@ -95,32 +96,39 @@ public class AvailableBikesEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "BestBikeBusMetroRequest")                  
 	public @ResponsePayload BestBikeBusMetroResponse handleBestBikeBusMetroRequest(@RequestPayload BestBikeBusMetroRequest bestBikeBusMetroRequest) {
 		BestBikeBusMetroResponse response=new BestBikeBusMetroResponse();
-		boolean bikeIsBetter;
-		int dist=busMetroService.getDistanceEnMetreAvec(UNIVERSITE, bestBikeBusMetroRequest.getCoordonnees());
+		boolean bikeIsBetter=false;
+		int timeEstimed;
+		
+		
+		int dist=ToolBox.getDistMeter(UNIVERSITE, bestBikeBusMetroRequest.getCoordonnees());
 		if(dist<8000) {
 			bikeIsBetter=true;
 			BikeStation startStation=bikeService.getNearestBikeStation(UNIVERSITE);
 			BikeStation endStation=bikeService.getNearestBikeStation(bestBikeBusMetroRequest.getCoordonnees());
-			int bikeDist=busMetroService.getDistanceEnMetreAvec(startStation.getCoordonnees(), endStation.getCoordonnees());
+			int bikeDist=ToolBox.getDistMeter(startStation.getCoordonnees(), endStation.getCoordonnees());
 			int walkDist=dist-bikeDist;
 			if(walkDist<0){
 				bikeIsBetter=false;
-				
-				
 			}
 			else{
-				int timeEstimed=bikeDist*60/BIKE_KM_H+walkDist*60/WALKSPEED_KM_H;
+				timeEstimed=bikeDist*60/BIKE_KM_H + walkDist*60/WALKSPEED_KM_H;
+				response.setType("Bike");
+				response.setStartBikeStation(endStation.getName());
+				response.setEndBikeStation(endStation.getName());
+				response.setLinesAvailable("");
+				response.setTimeEstimed(timeEstimed);
 			}
+			
+		}
+		if(!bikeIsBetter){
+			String availableLines = busMetroService.getAvailableLines(UNIVERSITE,bestBikeBusMetroRequest.getCoordonnees());
+			timeEstimed=dist*60/BUS_METRO_KM_H;
+			response.setType("Bus/Metro");
+			response.setStartBikeStation("");
+			response.setEndBikeStation("");
+			response.setLinesAvailable(availableLines);
+			response.setTimeEstimed(timeEstimed);
 		}
 		return response;
-	}
-	
-	public User filterUserByID(long id){
-		for (int i=0;i<userList.size();i++) {
-			if(userList.get(i).getId()==id) {
-				return userList.get(i); 
-			}
-		}
-		return null;
 	}
 }

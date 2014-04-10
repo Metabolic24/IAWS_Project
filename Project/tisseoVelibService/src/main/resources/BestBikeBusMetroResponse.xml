@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:BestBikeBusMetroResponse xmlns:tns="http://www.example.org/TisseoVelib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/TisseoVelib TisseoVelib.xsd ">
+  <tns:type>bike</tns:type>
+  <tns:timeEstimed>360</tns:timeEstimed>
+  <tns:linesAvailable></tns:linesAvailable>
+  <tns:startBikeStation>00040 - COLOMBETTE</tns:startBikeStation>
+  <tns:endBikeStation>00041 - COLOMBEAU</tns:endBikeStation>
+</tns:BestBikeBusMetroResponse>

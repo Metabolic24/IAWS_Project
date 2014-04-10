@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:BestBikeBusMetroRequest xmlns:tns="http://www.example.org/TisseoVelib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/TisseoVelib TisseoVelib.xsd ">
+  <tns:coordonnees>
+    <tns:longitude>1.64</tns:longitude>
+    <tns:latitude>41.65</tns:latitude>
+  </tns:coordonnees>
+</tns:BestBikeBusMetroRequest>

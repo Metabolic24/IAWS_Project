@@ -6,9 +6,10 @@ import iaws.domain.tisseovelib.TransportLine;
 
 public interface BusMetroService {
 
-	public TransportLine filterStationsByID(long id);
-	public TransportLine filterStationsByShortname(String shortName);
+	public TransportLine filterLinesByID(long id);
+	public TransportLine filterLinesByShortname(String shortName);
 	public CheckPoint getNearestCheckPoint(Coordonnees coord,long id);
 	public String getNextTimeToCheckPoint(long id);
-	public int getDistanceEnMetreAvec(Coordonnees coordonnees1,Coordonnees coordonnees2);
+	public String getAvailableLines(
+			Coordonnees coordonnees1, Coordonnees coordonnees2);
 }

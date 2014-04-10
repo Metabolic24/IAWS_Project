@@ -47,4 +47,20 @@ public class AvailableBikesEndpointTest {
         mockClient.sendRequest(withPayload(requestPayload)).
                 andExpect(payload(responsePayload));
     }
+    
+    public void nextBusMetroRequest() throws Exception {
+    	Source requestPayload = new StreamSource(new ClassPathResource("NextBusMetroRequest.xml").getInputStream() );
+        Source responsePayload = new StreamSource(new ClassPathResource("NextBusMetroResponse.xml").getInputStream());
+
+        mockClient.sendRequest(withPayload(requestPayload)).
+                andExpect(payload(responsePayload));
+    }
+    
+    public void bestBikeBusMetroRequest() throws Exception {
+    	Source requestPayload = new StreamSource(new ClassPathResource("BestBikeBusMetroRequest.xml").getInputStream() );
+        Source responsePayload = new StreamSource(new ClassPathResource("BestBikeBusMetroResponse.xml").getInputStream());
+
+        mockClient.sendRequest(withPayload(requestPayload)).
+                andExpect(payload(responsePayload));
+    }
 }
