@@ -93,7 +93,7 @@ public class User {
     		return true;
     	}
     	else if(!like && checkLike(id)){
-    		likeList.add(id);
+    		likeList.remove(id);
     		return true;
     	}
     	else {

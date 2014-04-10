@@ -65,7 +65,10 @@ public class AvailableBikesEndpoint {
 			TransportLine currentLine=busMetroService.filterLinesByShortname(likeRequest.getShortName());
 			if(currentLine!=null) {
 				if(currentUser.likeUnlike(currentLine.getId(),likeRequest.isLike())){
-					currentLine.setNbLikes(currentLine.getNbLikes()+1);
+					if(likeRequest.isLike())
+						currentLine.setNbLikes(currentLine.getNbLikes()+1);
+					else
+						currentLine.setNbLikes(currentLine.getNbLikes()-1);
 					response.setEtat("OK");
 				}
 				else{
