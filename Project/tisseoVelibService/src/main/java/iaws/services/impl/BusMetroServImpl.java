@@ -108,11 +108,15 @@ public class BusMetroServImpl implements BusMetroService {
 		ArrayList<String> shortNameList = new ArrayList<String>();
 		ArrayList<TransportLine> resList=new ArrayList<TransportLine>();
 		
+		String box1=String.valueOf((int)(coord.getLatitude()-0.01));
+		String box2=String.valueOf((int)(coord.getLongitude()-0.01));
+		String box3=String.valueOf((int)(coord.getLatitude()+0.01));
+		String box4=String.valueOf((int)(coord.getLongitude()+0.01));
+		
+		
 		try {
 			JSONArray array=new JSONObject(ToolBox.get("http://pt.data.tisseo.fr/stopPointsList?bbox="
-						+String.valueOf(coord.getLatitude())+","+String.valueOf(coord.getLongitude())+","
-					+String.valueOf(coord.getLatitude()+0.01)+","+String.valueOf(coord.getLongitude()+0.01)
-						+"&sortByDistance=1&displayCoordXY=1&format=json"
+						+box1+","+box2+","+box3+","+box4+"&sortByDistance=1&displayCoordXY=1&format=json"
 					+ "&key=a03561f2fd10641d96fb8188d209414d8")).getJSONObject("physicalStops").getJSONArray("physicalStop");
 			
 			int max = (nbResults>array.length()) ? array.length() : nbResults;
