@@ -60,19 +60,21 @@ public class AvailableBikesEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "LikeRequest")                  
 	public @ResponsePayload LikeResponse handleLikeRequest(@RequestPayload LikeRequest likeRequest) {
 		LikeResponse response=new LikeResponse();
+		boolean like=likeRequest.isLike();
+		
 		User currentUser=ToolBox.filterUserByID(userList,likeRequest.getId());
 		if (currentUser!=null) {
 			TransportLine currentLine=busMetroService.filterLinesByShortname(likeRequest.getShortName());
 			if(currentLine!=null) {
-				if(currentUser.likeUnlike(currentLine.getId(),likeRequest.isLike())){
-					if(likeRequest.isLike())
+				if(currentUser.likeUnlike(currentLine.getId(),like)){
+					if(like)
 						currentLine.setNbLikes(currentLine.getNbLikes()+1);
 					else
 						currentLine.setNbLikes(currentLine.getNbLikes()-1);
 					response.setEtat("OK");
 				}
 				else{
-					if(likeRequest.isLike())
+					if(like)
 						response.setEtat("OK : Already Liked");
 					else
 						response.setEtat("OK : Already Unliked");
@@ -99,18 +101,20 @@ public class AvailableBikesEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "BestBikeBusMetroRequest")                  
 	public @ResponsePayload BestBikeBusMetroResponse handleBestBikeBusMetroRequest(@RequestPayload BestBikeBusMetroRequest bestBikeBusMetroRequest) {
 		BestBikeBusMetroResponse response=new BestBikeBusMetroResponse();
+		Coordonnees destCoordonnees=bestBikeBusMetroRequest.getCoordonnees();
+		
 		boolean bikeIsBetter=false;
 		int timeEstimed;
 		
-		
-		int dist=ToolBox.getDistMeter(UNIVERSITE, bestBikeBusMetroRequest.getCoordonnees());
+		int dist=ToolBox.getDistMeter(UNIVERSITE, destCoordonnees);
 		if(dist<8000) {
 			bikeIsBetter=true;
 			BikeStation startStation=bikeService.getNearestBikeStation(UNIVERSITE);
-			BikeStation endStation=bikeService.getNearestBikeStation(bestBikeBusMetroRequest.getCoordonnees());
+			BikeStation endStation=bikeService.getNearestBikeStation(destCoordonnees);
 			int bikeDist=ToolBox.getDistMeter(startStation.getCoordonnees(), endStation.getCoordonnees());
-			int walkDist=dist-bikeDist;
-			if(walkDist<0){
+			int walkDist=ToolBox.getDistMeter(UNIVERSITE, startStation.getCoordonnees())
+					+ToolBox.getDistMeter(endStation.getCoordonnees(), destCoordonnees);
+			if(walkDist>(dist/4)){
 				bikeIsBetter=false;
 			}
 			else{
@@ -124,7 +128,7 @@ public class AvailableBikesEndpoint {
 			
 		}
 		if(!bikeIsBetter){
-			String availableLines = busMetroService.getAvailableLines(UNIVERSITE,bestBikeBusMetroRequest.getCoordonnees());
+			String availableLines = busMetroService.getAvailableLines(UNIVERSITE,destCoordonnees);
 			timeEstimed=dist*60/BUS_METRO_KM_H;
 			response.setType("Bus/Metro");
 			response.setStartBikeStation("");
